@@ -12,27 +12,21 @@ public class Utils {
 
     public static String getPath(String... dirs) {
         String res = "";
-
         for (int i = 0; i < dirs.length - 1; i++) {
             res += dirs[i];
             res += File.separator;
         }
-
         res += dirs[dirs.length - 1];
-
         return res;
     }
 
     public static String getInnerPath(String... dirs) {
         String res = File.separator;
-
         for (int i = 0; i < dirs.length - 1; i++) {
             res += dirs[i];
             res += File.separator;
         }
-
         res += dirs[dirs.length - 1];
-
         return res;
     }
 
