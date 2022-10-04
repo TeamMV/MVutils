@@ -4,32 +4,35 @@ import lombok.SneakyThrows;
 
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
+import java.util.function.Function;
 
 public class Promise<T> {
 
     private volatile T ret;
     private volatile boolean done = false, threw = false;
-    private volatile Throwable cause;
     private volatile Thread thread;
 
     public Promise(BiConsumer<Resolver<T>, Rejector> function) {
         thread = new Thread(() -> function.accept(val -> {
             thread.interrupt();
-            done = true;
             ret = val;
+            done = true;
         }, new Rejector() {
             @Override
             public void reject(Throwable t) {
+                thread.interrupt();
                 done = true;
                 throwError(t);
             }
             @Override
             public void reject(String s) {
+                thread.interrupt();
                 done = true;
                 throwError(s);
             }
             @Override
             public void reject(String s, Throwable t) {
+                thread.interrupt();
                 done = true;
                 throwError(s, t);
             }
@@ -46,16 +49,37 @@ public class Promise<T> {
         thread.start();
     }
 
-    public void then(Consumer<T> consumer) {
-        Thread then = new Thread(() -> {
+    public PromiseNull then(Consumer<T> consumer) {
+        return new PromiseNull((res, rej) -> {
             while (true) {
                 if (done) {
-                    consumer.accept(ret);
+                    try {
+                        consumer.accept(ret);
+                        res.resolve();
+                    }
+                    catch (Throwable err) {
+                        rej.reject(err);
+                    }
                     break;
                 }
             }
         });
-        then.start();
+    }
+
+    public <R> Promise<R> then(Function<T, R> function) {
+        return new Promise<R>((res, rej) -> {
+            while (true) {
+                if (done) {
+                    try {
+                        res.resolve(function.apply(ret));
+                    }
+                    catch (Throwable err) {
+                        rej.reject(err);
+                    }
+                    break;
+                }
+            }
+        });
     }
 
     public void thenSync(Consumer<T> consumer) {
