@@ -1,0 +1,11 @@
+{
+	"name": "MV Utils",
+	"language": "java",
+	"type": "app",
+	"framework": "none",
+	"frameworkVersion": "-1",
+	"author": "Maxim Savenkov",
+	"git": true,
+	"gitLink": "https://github.com/TeamMV/MVutils.git",
+	"licence": "MIT"
+}
