@@ -12,8 +12,11 @@ import com.sun.tools.javac.util.List;
 import dev.mv.utils.async.*;
 import lombok.SneakyThrows;
 
+import javax.lang.model.element.ElementKind;
+
 import static com.sun.tools.javac.util.List.nil;
 
+@AutoService(Plugin.class)
 public class AsyncManager implements Plugin {
 
     private PromiseNull promiseNull = new PromiseNull((res, rej) -> {});
@@ -46,7 +49,6 @@ public class AsyncManager implements Plugin {
     @Override
     public void init(JavacTask task, String... args) {
         Context context = ((BasicJavacTask) task).getContext();
-
         task.addTaskListener(new TaskListener() {
             @Override
             public void started(TaskEvent e) {
@@ -108,12 +110,27 @@ public class AsyncManager implements Plugin {
         promise.params.add(rej);
         statements.forEach(statement -> {
             if (statement.getKind() == Tree.Kind.RETURN) {
-                JCTree.JCExpression returnVal = ((JCTree.JCReturn) statement).getExpression();
-                factory.App(null, List.of(returnVal));
+                Symbol.MethodSymbol method = null;
+                for (Symbol element : res.sym.getEnclosedElements()) {
+                    if (element.getKind() == ElementKind.METHOD) {
+                        method = (Symbol.MethodSymbol) element;
+                    }
+                }
+                if (method != null) {
+                    lambdaBody.add(factory.Call(factory.App(factory.QualIdent(method), List.nil())));
+                }
             }
             else if (statement.getKind() == Tree.Kind.THROW) {
                 JCTree.JCExpression throwVal = ((JCTree.JCThrow) statement).getExpression();
-                factory.App(null, List.of(throwVal));
+                Symbol.MethodSymbol method = null;
+                for (Symbol element : rej.sym.getEnclosedElements()) {
+                    if (element.getKind() == ElementKind.METHOD) {
+                        method = (Symbol.MethodSymbol) element;
+                    }
+                }
+                if (method != null) {
+                    lambdaBody.add(factory.Call(factory.App(factory.QualIdent(method), List.of(throwVal))));
+                }
             }
             else {
                 lambdaBody.add(statement);

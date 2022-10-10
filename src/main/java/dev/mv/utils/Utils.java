@@ -1,11 +1,12 @@
 package dev.mv.utils;
 
-import dev.mv.utils.async.Async;
 import dev.mv.utils.async.Promise;
 import dev.mv.utils.async.PromiseNull;
 import dev.mv.utils.nullHandler.NullHandler;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class Utils {
@@ -50,6 +51,23 @@ public class Utils {
         return (int) ((float) value / (float) total * 100f);
     }
 
+    public static boolean isAnyOf(Object obj, Object... objs) {
+        for (Object o : objs) {
+            if (obj.equals(o)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static <T> List<T> merge(List<T>... lists) {
+        List<T> mergedList = new ArrayList<>();
+        for (List<T> list : lists) {
+            mergedList.addAll(list);
+        }
+        return mergedList;
+    }
+
     public static <T> NullHandler<T> ifNotNull(T t) {
         return new NullHandler<T>(t);
     }
@@ -64,7 +82,6 @@ public class Utils {
         promise.thenSync(() -> {});
     }
 
-    @Async
     public static PromiseNull sleep(int ms) {
         return new PromiseNull((res, rej) -> {
             try {

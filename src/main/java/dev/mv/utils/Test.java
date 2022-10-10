@@ -14,7 +14,6 @@ public class Test {
         System.out.println("hello");
     }
 
-    @Async
     public static Promise<String> getString() {
         return new Promise<>((res, rej) -> {
            await(sleep(500));
