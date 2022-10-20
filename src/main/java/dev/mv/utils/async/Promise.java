@@ -5,6 +5,7 @@ import lombok.SneakyThrows;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.Function;
+import java.util.function.Supplier;
 
 public class Promise<T> {
 
@@ -46,6 +47,20 @@ public class Promise<T> {
             ret = val;
             done = true;
         }));
+        thread.start();
+    }
+
+    public Promise(Supplier<T> function) {
+        thread = new Thread(() -> {
+            try {
+                ret = function.get();
+                done = true;
+            }
+            catch (Throwable t) {
+                done = true;
+                throwError(t);
+            }
+        });
         thread.start();
     }
 

@@ -1,6 +1,5 @@
 package dev.mv.utils;
 
-import dev.mv.utils.async.Async;
 import dev.mv.utils.async.Promise;
 
 import static dev.mv.utils.Utils.*;

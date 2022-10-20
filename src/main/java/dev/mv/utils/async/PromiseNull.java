@@ -4,7 +4,6 @@ import lombok.SneakyThrows;
 
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
-import java.util.function.Function;
 import java.util.function.Supplier;
 
 public class PromiseNull {
@@ -42,6 +41,20 @@ public class PromiseNull {
             thread.interrupt();
             done = true;
         }));
+        thread.start();
+    }
+
+    public PromiseNull(Runnable function) {
+        thread = new Thread(() -> {
+            try {
+                function.run();
+                done = true;
+            }
+            catch (Throwable t) {
+                done = true;
+                throwError(t);
+            }
+        });
         thread.start();
     }
 
