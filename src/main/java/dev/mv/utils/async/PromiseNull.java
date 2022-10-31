@@ -22,11 +22,13 @@ public class PromiseNull {
                 done = true;
                 throwError(t);
             }
+
             @Override
             public void reject(String s) {
                 done = true;
                 throwError(s);
             }
+
             @Override
             public void reject(String s, Throwable t) {
                 done = true;
@@ -49,8 +51,7 @@ public class PromiseNull {
             try {
                 function.run();
                 done = true;
-            }
-            catch (Throwable t) {
+            } catch (Throwable t) {
                 done = true;
                 throwError(t);
             }
@@ -65,8 +66,7 @@ public class PromiseNull {
                     try {
                         function.run();
                         res.resolve();
-                    }
-                    catch (Throwable err) {
+                    } catch (Throwable err) {
                         rej.reject(err);
                     }
                     break;
@@ -81,8 +81,7 @@ public class PromiseNull {
                 if (done) {
                     try {
                         res.resolve(function.get());
-                    }
-                    catch (Throwable err) {
+                    } catch (Throwable err) {
                         rej.reject(err);
                     }
                     break;

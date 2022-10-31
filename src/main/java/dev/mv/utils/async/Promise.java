@@ -25,12 +25,14 @@ public class Promise<T> {
                 done = true;
                 throwError(t);
             }
+
             @Override
             public void reject(String s) {
                 thread.interrupt();
                 done = true;
                 throwError(s);
             }
+
             @Override
             public void reject(String s, Throwable t) {
                 thread.interrupt();
@@ -55,8 +57,7 @@ public class Promise<T> {
             try {
                 ret = function.get();
                 done = true;
-            }
-            catch (Throwable t) {
+            } catch (Throwable t) {
                 done = true;
                 throwError(t);
             }
@@ -71,8 +72,7 @@ public class Promise<T> {
                     try {
                         consumer.accept(ret);
                         res.resolve();
-                    }
-                    catch (Throwable err) {
+                    } catch (Throwable err) {
                         rej.reject(err);
                     }
                     break;
@@ -87,8 +87,7 @@ public class Promise<T> {
                 if (done) {
                     try {
                         res.resolve(function.apply(ret));
-                    }
-                    catch (Throwable err) {
+                    } catch (Throwable err) {
                         rej.reject(err);
                     }
                     break;

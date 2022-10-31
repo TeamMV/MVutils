@@ -1,17 +1,17 @@
 {
-	"cliEditor": "vi",
-	"scripts": [
-		{
-			"name": "commit",
-			"type": "sh",
-			"args": 1,
-			"script": "Z2l0IGFkZCAqCmdpdCBjb21taXQgLWEgLW0gInthcmdzLmluZGV4LjB9Igo="
-		},
-		{
-			"name": "push",
-			"type": "sh",
-			"args": 1,
-			"script": "Z2l0IGFkZCAqCmdpdCBjb21taXQgLWEgLW0gInthcmdzLmluZGV4LjB9IgpnaXQgcHVzaCAtdSBvcmlnaW4gbWFpbgo="
-		}
-	]
+  "cliEditor": "vi",
+  "scripts": [
+    {
+      "name": "commit",
+      "type": "sh",
+      "args": 1,
+      "script": "Z2l0IGFkZCAqCmdpdCBjb21taXQgLWEgLW0gInthcmdzLmluZGV4LjB9Igo="
+    },
+    {
+      "name": "push",
+      "type": "sh",
+      "args": 1,
+      "script": "Z2l0IGFkZCAqCmdpdCBjb21taXQgLWEgLW0gInthcmdzLmluZGV4LjB9IgpnaXQgcHVzaCAtdSBvcmlnaW4gbWFpbgo="
+    }
+  ]
 }

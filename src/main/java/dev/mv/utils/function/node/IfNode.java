@@ -2,12 +2,10 @@ package dev.mv.utils.function.node;
 
 import dev.mv.utils.function.Node;
 import dev.mv.utils.function.NodeVisitor;
-import dev.mv.utils.function.anonymous.AnonymousFunction;
-import dev.mv.utils.function.anonymous.Runnable;
-import dev.mv.utils.function.anonymous.Supplier;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Supplier;
 
 public class IfNode<T extends Node> implements Node {
 
@@ -28,17 +26,7 @@ public class IfNode<T extends Node> implements Node {
         return this;
     }
 
-    public IfNode<T> addStatement(AnonymousFunction function) {
-        children.add(new StatementNode(function));
-        return this;
-    }
-
     public IfNode<T> addStatement(Runnable function) {
-        children.add(new StatementNode(function));
-        return this;
-    }
-
-    public <R> IfNode<T> addStatement(Supplier<R> function) {
         children.add(new StatementNode(function));
         return this;
     }
@@ -57,7 +45,7 @@ public class IfNode<T extends Node> implements Node {
         return parent;
     }
 
-    public AnonymousFunction visit(NodeVisitor visitor) {
+    public Runnable visit(NodeVisitor visitor) {
         return visitor.visitIf(this);
     }
 

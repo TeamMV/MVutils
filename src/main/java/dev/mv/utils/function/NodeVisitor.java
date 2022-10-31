@@ -1,6 +1,5 @@
 package dev.mv.utils.function;
 
-import dev.mv.utils.function.anonymous.AnonymousFunction;
 import dev.mv.utils.function.node.ElseNode;
 import dev.mv.utils.function.node.IfNode;
 import dev.mv.utils.function.node.RootNode;
@@ -8,12 +7,12 @@ import dev.mv.utils.function.node.StatementNode;
 
 public interface NodeVisitor {
 
-    AnonymousFunction visitRoot(RootNode node);
+    Runnable visitRoot(RootNode node);
 
-    AnonymousFunction visitStatement(StatementNode node);
+    Runnable visitStatement(StatementNode node);
 
-    <T extends Node> AnonymousFunction visitIf(IfNode<T> node);
+    <T extends Node> Runnable visitIf(IfNode<T> node);
 
-    <T extends Node> AnonymousFunction visitElse(ElseNode<T> node);
+    <T extends Node> Runnable visitElse(ElseNode<T> node);
 
 }

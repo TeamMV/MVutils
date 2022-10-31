@@ -2,12 +2,10 @@ package dev.mv.utils.function.node;
 
 import dev.mv.utils.function.Node;
 import dev.mv.utils.function.NodeVisitor;
-import dev.mv.utils.function.anonymous.AnonymousFunction;
-import dev.mv.utils.function.anonymous.Runnable;
-import dev.mv.utils.function.anonymous.Supplier;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Supplier;
 
 public class ElseNode<T extends Node> implements Node {
 
@@ -19,21 +17,11 @@ public class ElseNode<T extends Node> implements Node {
         children = new ArrayList<>();
     }
 
-    public AnonymousFunction visit(NodeVisitor visitor) {
+    public Runnable visit(NodeVisitor visitor) {
         return visitor.visitElse(this);
     }
 
-    public ElseNode<T> addStatement(AnonymousFunction function) {
-        children.add(new StatementNode(function));
-        return this;
-    }
-
     public ElseNode<T> addStatement(Runnable function) {
-        children.add(new StatementNode(function));
-        return this;
-    }
-
-    public <R> ElseNode<T> addStatement(Supplier<R> function) {
         children.add(new StatementNode(function));
         return this;
     }

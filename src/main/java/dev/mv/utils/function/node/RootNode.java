@@ -1,36 +1,24 @@
 package dev.mv.utils.function.node;
 
-import dev.mv.utils.function.AnonymousFunctionBuilder;
+import dev.mv.utils.function.FunctionBuilder;
 import dev.mv.utils.function.Node;
 import dev.mv.utils.function.NodeVisitor;
-import dev.mv.utils.function.anonymous.AnonymousFunction;
-import dev.mv.utils.function.anonymous.Runnable;
-import dev.mv.utils.function.anonymous.Supplier;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Supplier;
 
 public class RootNode implements Node {
 
-    private AnonymousFunctionBuilder parent;
     public List<Node> children;
+    private FunctionBuilder parent;
 
-    public RootNode(AnonymousFunctionBuilder parent) {
+    public RootNode(FunctionBuilder parent) {
         this.parent = parent;
         children = new ArrayList<>();
     }
 
-    public RootNode addStatement(AnonymousFunction function) {
-        children.add(new StatementNode(function));
-        return this;
-    }
-
     public RootNode addStatement(Runnable function) {
-        children.add(new StatementNode(function));
-        return this;
-    }
-
-    public <R> RootNode addStatement(Supplier<R> function) {
         children.add(new StatementNode(function));
         return this;
     }
@@ -41,11 +29,11 @@ public class RootNode implements Node {
         return ifNode;
     }
 
-    public AnonymousFunctionBuilder endRoot() {
+    public FunctionBuilder endRoot() {
         return parent;
     }
 
-    public AnonymousFunction visit(NodeVisitor visitor) {
+    public Runnable visit(NodeVisitor visitor) {
         return visitor.visitRoot(this);
     }
 

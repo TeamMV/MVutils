@@ -1,21 +1,19 @@
 package dev.mv.utils.function;
 
-import dev.mv.utils.function.anonymous.Supplier;
 import dev.mv.utils.function.node.ElseNode;
 import dev.mv.utils.function.node.IfNode;
 import dev.mv.utils.function.node.RootNode;
-import dev.mv.utils.function.anonymous.Runnable;
 import dev.mv.utils.function.node.StatementNode;
 import lombok.SneakyThrows;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Objects;
+import java.util.function.Supplier;
 
-public final class RunnableBuilder implements AnonymousFunctionBuilder {
+public final class FunctionBuilder {
 
     private RootNode root;
 
-    public RunnableBuilder() {
+    public FunctionBuilder() {
         this.root = new RootNode(this);
     }
 
@@ -23,12 +21,12 @@ public final class RunnableBuilder implements AnonymousFunctionBuilder {
         return root;
     }
 
-    public RunnableBuilder reset() {
+    public FunctionBuilder reset() {
         root = new RootNode(this);
         return this;
     }
 
-    @Override @NotNull
+    @NotNull
     public Runnable compile() {
         return (Runnable) root.visit(new RunnableNodeVisitor());
     }
@@ -45,12 +43,12 @@ public final class RunnableBuilder implements AnonymousFunctionBuilder {
             };
         }
 
-        @Override @SneakyThrows
+        @Override
+        @SneakyThrows
         public Runnable visitStatement(StatementNode node) {
             if (node.statement instanceof Runnable) {
                 return (Runnable) node.statement;
-            }
-            else {
+            } else {
                 throw new IllegalFunctionTypeException("All functions given to a RunnableBuilder must be runnables");
             }
         }
@@ -63,19 +61,17 @@ public final class RunnableBuilder implements AnonymousFunctionBuilder {
                 final Runnable after = (Runnable) node.end.visit(this);
                 return () -> {
                     if (predicate.get()) {
-                        for(Runnable method : methods) {
+                        for (Runnable method : methods) {
                             method.run();
                         }
-                    }
-                    else {
+                    } else {
                         after.run();
                     }
                 };
-            }
-            else {
+            } else {
                 return () -> {
                     if (predicate.get()) {
-                        for(Runnable method : methods) {
+                        for (Runnable method : methods) {
                             method.run();
                         }
                     }
