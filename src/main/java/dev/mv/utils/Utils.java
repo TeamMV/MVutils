@@ -3,6 +3,7 @@ package dev.mv.utils;
 import dev.mv.utils.async.Promise;
 import dev.mv.utils.async.PromiseNull;
 import dev.mv.utils.nullHandler.NullHandler;
+import lombok.SneakyThrows;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -79,16 +80,15 @@ public class Utils {
     }
 
     public static void await(PromiseNull promise) {
-        promise.thenSync(() -> {
-        });
+        promise.thenSync(() -> {});
     }
 
     public static PromiseNull sleep(int ms) {
-        return new PromiseNull(() -> {
+        return new PromiseNull((res, rej) -> {
             try {
                 Thread.sleep(ms);
             } catch (InterruptedException e) {
-                throw new RuntimeException(e);
+                rej.reject(e);
             }
         });
     }

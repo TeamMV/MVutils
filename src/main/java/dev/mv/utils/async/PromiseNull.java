@@ -1,6 +1,7 @@
 package dev.mv.utils.async;
 
 import lombok.SneakyThrows;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
@@ -12,41 +13,44 @@ public class PromiseNull {
 
     private volatile Thread thread;
 
-    public PromiseNull(BiConsumer<ResolverNull, Rejector> function) {
+    public PromiseNull(@NotNull BiConsumer<ResolverNull, Rejector> function) {
+        thread = new Thread(() -> {
+            function.accept(() -> {
+                thread.interrupt();
+                done = true;
+            }, new Rejector() {
+                @Override
+                public void reject(Throwable t) {
+                    done = true;
+                    throwError(t);
+                }
+
+                @Override
+                public void reject(String s) {
+                    done = true;
+                    throwError(s);
+                }
+
+                @Override
+                public void reject(String s, Throwable t) {
+                    done = true;
+                    throwError(s, t);
+                }
+            });
+            done = true;
+        });
+        thread.start();
+    }
+
+    public PromiseNull(@NotNull Consumer<ResolverNull> function) {
         thread = new Thread(() -> function.accept(() -> {
             thread.interrupt();
             done = true;
-        }, new Rejector() {
-            @Override
-            public void reject(Throwable t) {
-                done = true;
-                throwError(t);
-            }
-
-            @Override
-            public void reject(String s) {
-                done = true;
-                throwError(s);
-            }
-
-            @Override
-            public void reject(String s, Throwable t) {
-                done = true;
-                throwError(s, t);
-            }
         }));
         thread.start();
     }
 
-    public PromiseNull(Consumer<ResolverNull> function) {
-        thread = new Thread(() -> function.accept(() -> {
-            thread.interrupt();
-            done = true;
-        }));
-        thread.start();
-    }
-
-    public PromiseNull(Runnable function) {
+    public PromiseNull(@NotNull Runnable function) {
         thread = new Thread(() -> {
             try {
                 function.run();
@@ -59,7 +63,7 @@ public class PromiseNull {
         thread.start();
     }
 
-    public PromiseNull then(Runnable function) {
+    public PromiseNull then(@NotNull Runnable function) {
         return new PromiseNull((res, rej) -> {
             while (true) {
                 if (done) {
@@ -75,7 +79,7 @@ public class PromiseNull {
         });
     }
 
-    public <R> Promise<R> then(Supplier<R> function) {
+    public <R> Promise<R> then(@NotNull Supplier<R> function) {
         return new Promise<R>((res, rej) -> {
             while (true) {
                 if (done) {
@@ -90,7 +94,7 @@ public class PromiseNull {
         });
     }
 
-    public void thenSync(Runnable function) {
+    public void thenSync(@NotNull Runnable function) {
         while (true) {
             if (done) {
                 function.run();
