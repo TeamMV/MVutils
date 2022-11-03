@@ -2,29 +2,39 @@ package dev.mv.utils.args;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Function;
 
 public class ParsedArgsMap {
+    private final Map<String, String> stringValues;
+    private final Map<String, Object> objectValues;
 
-    private ParsedArgsMap parsedArgs;
-
-    private Map<String, Object> values;
-
-    private String[] args;
+    private final String[] args;
 
     public ParsedArgsMap(String[] args) {
-        parsedArgs = this;
-        values = new HashMap<>();
+        stringValues = new HashMap<>();
+        objectValues = new HashMap<>();
         this.args = args;
         parse();
     }
 
     private void parse() {
         for (int i = 0; i < args.length; i++) {
-            values.put(args[i], args[++i]);
+            stringValues.put(args[i], args[++i]);
         }
     }
 
-    public <T> T get(String key) {
-        return (T) values.get(key);
+    public String get(String key) {
+        return stringValues.get(key);
+    }
+
+    public <T> T getMapped(String key) {
+        return (T) objectValues.get(key);
+    }
+
+    public <T> T map(String key, Function<String, T> mapper) {
+        String value = stringValues.get(key);
+        T mapped = mapper.apply(value);
+        objectValues.put(key, mapped);
+        return mapped;
     }
 }

@@ -1,20 +1,29 @@
 package dev.mv.utils;
 
 import dev.mv.utils.args.ParsedArgs;
+import lombok.SneakyThrows;
+
+import static dev.mv.utils.Utils.*;
 
 public class Test extends ParsedArgs {
 
-    public String something;
-
     public Test(String[] args) {
-        super();
         ArgParser parser = new ArgParser(args);
-        parser.addArg("--arg", "something").done();
+
         parser.parse();
     }
 
     public static void main(String[] args) {
-        Test test = new Test(args);
+        new Test(args);
     }
 
+    @Override
+    @SneakyThrows
+    protected void setVariable(String name, Object value) {
+        try {
+            parsedArgs.getClass().getDeclaredField(name).set(parsedArgs, value);
+        } catch (IllegalArgumentException e) {
+            parsedArgs.getClass().getDeclaredField(name).set(parsedArgs, 0);
+        }
+    }
 }

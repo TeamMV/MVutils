@@ -7,9 +7,9 @@ import java.util.function.Function;
 
 public class ParsedArgs {
 
-    private ParsedArgs parsedArgs;
+    protected ParsedArgs parsedArgs;
 
-    public ParsedArgs() {
+    protected ParsedArgs() {
         parsedArgs = this;
     }
 
@@ -72,26 +72,26 @@ public class ParsedArgs {
             private void finish(String arg) {
                 called = true;
                 if (map != null) {
-                    setVariable(dest, map.apply(arg));
+                    parsedArgs.setVariable(dest, map.apply(arg));
                     return;
                 }
-                setVariable(dest, arg);
+                parsedArgs.setVariable(dest, arg);
             }
 
             private void checks() {
                 if (called) return;
                 if (defaultValue == null) return;
-                setVariable(dest, defaultValue);
+                parsedArgs.setVariable(dest, defaultValue);
             }
+        }
+    }
 
-            @SneakyThrows
-            private void setVariable(String name, Object value) {
-                try {
-                    parsedArgs.getClass().getDeclaredField(name).set(parsedArgs, value);
-                } catch (IllegalArgumentException e) {
-                    parsedArgs.getClass().getDeclaredField(name).set(parsedArgs, 0);
-                }
-            }
+    @SneakyThrows
+    protected void setVariable(String name, Object value) {
+        try {
+            parsedArgs.getClass().getDeclaredField(name).set(parsedArgs, value);
+        } catch (IllegalArgumentException e) {
+            parsedArgs.getClass().getDeclaredField(name).set(parsedArgs, 0);
         }
     }
 }
