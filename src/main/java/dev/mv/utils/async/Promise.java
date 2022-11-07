@@ -42,18 +42,26 @@ public class Promise<T> {
                     throwError(s, t);
                 }
             });
-            done = true;
-            ret = null;
+            if (!done) {
+                done = true;
+                ret = null;
+            }
         });
         thread.start();
     }
 
     public Promise(@NotNull Consumer<Resolver<T>> function) {
-        thread = new Thread(() -> function.accept(val -> {
-            thread.interrupt();
-            ret = val;
-            done = true;
-        }));
+        thread = new Thread(() -> {
+            function.accept(val -> {
+                thread.interrupt();
+                ret = val;
+                done = true;
+            });
+            if (!done) {
+                done = true;
+                ret = null;
+            }
+        });
         thread.start();
     }
 

@@ -32,19 +32,19 @@ public class Utils {
     }
 
     public static double radToDeg(double rad) {
-        return rad * (180 / Math.PI);
+        return rad * 57.29577951308232;
     }
 
     public static float radToDeg(float rad) {
-        return (float) (rad * (180 / Math.PI));
+        return (float) (rad *  57.29577951308232);
     }
 
     public static double degToRad(double deg) {
-        return deg * (Math.PI / 180.0);
+        return deg * 0.017453292519943295;
     }
 
     public static float degToRad(float deg) {
-        return (float) (deg * (Math.PI / 180.0));
+        return (float) (deg * 0.017453292519943295);
     }
 
     public static int getPercent(int value, int total) {

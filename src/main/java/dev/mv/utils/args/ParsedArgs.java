@@ -29,6 +29,14 @@ public class ParsedArgs {
             return arg;
         }
 
+        public <T> Argument<T> addArg(String[] keys, String dest) {
+            Argument<T> arg = new Argument<T>(this, dest);
+            for (String key : keys) {
+                parser.put(key, arg);
+            }
+            return arg;
+        }
+
         public void parse() {
             for (int i = 0; i < args.length; i++) {
                 if (parser.containsKey(args[i])) {
@@ -72,26 +80,30 @@ public class ParsedArgs {
             private void finish(String arg) {
                 called = true;
                 if (map != null) {
-                    parsedArgs.setVariable(dest, map.apply(arg));
+                    parsedArgs.setVariable(dest, map.apply(arg), defaultValue);
                     return;
                 }
-                parsedArgs.setVariable(dest, arg);
+                parsedArgs.setVariable(dest, arg, defaultValue);
             }
 
             private void checks() {
                 if (called) return;
                 if (defaultValue == null) return;
-                parsedArgs.setVariable(dest, defaultValue);
+                parsedArgs.setVariable(dest, defaultValue, null);
             }
         }
     }
 
     @SneakyThrows
-    protected void setVariable(String name, Object value) {
+    protected void setVariable(String name, Object value, Object defaultValue) {
         try {
             parsedArgs.getClass().getDeclaredField(name).set(parsedArgs, value);
         } catch (IllegalArgumentException e) {
-            parsedArgs.getClass().getDeclaredField(name).set(parsedArgs, 0);
+            try {
+                parsedArgs.getClass().getDeclaredField(name).set(parsedArgs, defaultValue);
+            } catch (IllegalArgumentException ex) {
+                parsedArgs.getClass().getDeclaredField(name).set(parsedArgs, 0);
+            }
         }
     }
 }

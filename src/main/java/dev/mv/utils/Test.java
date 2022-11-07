@@ -1,14 +1,31 @@
 package dev.mv.utils;
 
 import dev.mv.utils.args.ParsedArgs;
+import dev.mv.utils.async.Promise;
+import dev.mv.utils.async.PromiseRejectedException;
+import lombok.Getter;
 import lombok.SneakyThrows;
 
+import java.math.BigInteger;
+import java.util.Optional;
+
 import static dev.mv.utils.Utils.*;
+import static java.lang.Float.NaN;
 
 public class Test extends ParsedArgs {
 
+    @Getter
+    private float version;
+
+    @Getter
+    private String name;
+
     public Test(String[] args) {
         ArgParser parser = new ArgParser(args);
+
+        parser
+                .addArg(new String[]{"--version", "-v"}, "version").map(Float::parseFloat).defaultValue(1.0).done()
+                .addArg(new String[]{"--name", "-n"}, "name").defaultValue("").done();
 
         parser.parse();
     }
@@ -19,11 +36,15 @@ public class Test extends ParsedArgs {
 
     @Override
     @SneakyThrows
-    protected void setVariable(String name, Object value) {
+    protected void setVariable(String name, Object value, Object defaultValue) {
         try {
             parsedArgs.getClass().getDeclaredField(name).set(parsedArgs, value);
         } catch (IllegalArgumentException e) {
-            parsedArgs.getClass().getDeclaredField(name).set(parsedArgs, 0);
+            try {
+                parsedArgs.getClass().getDeclaredField(name).set(parsedArgs, defaultValue);
+            } catch (IllegalArgumentException ex) {
+                parsedArgs.getClass().getDeclaredField(name).set(parsedArgs, 0);
+            }
         }
     }
 }

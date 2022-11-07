@@ -37,4 +37,8 @@ public class ParsedArgsMap {
         objectValues.put(key, mapped);
         return mapped;
     }
+
+    public boolean has(String key) {
+        return stringValues.containsKey(key);
+    }
 }
