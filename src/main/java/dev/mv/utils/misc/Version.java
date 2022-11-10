@@ -41,6 +41,7 @@ public class Version {
             int patch = versionChars[2] - 48;
             return new Version(major, minor, patch);
         }
+
         version = version.replaceAll("v", "").replaceAll(" ", "");
         String[] parts = version.split("\\.");
         if (parts.length!= 3) {
