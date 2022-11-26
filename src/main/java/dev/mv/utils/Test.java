@@ -1,16 +1,8 @@
 package dev.mv.utils;
 
 import dev.mv.utils.args.ParsedArgs;
-import dev.mv.utils.async.Promise;
-import dev.mv.utils.async.PromiseRejectedException;
 import lombok.Getter;
 import lombok.SneakyThrows;
-
-import java.math.BigInteger;
-import java.util.Optional;
-
-import static dev.mv.utils.Utils.*;
-import static java.lang.Float.NaN;
 
 public class Test extends ParsedArgs {
 

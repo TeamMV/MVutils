@@ -92,4 +92,68 @@ public class Utils {
             }
         });
     }
+
+    public static float[] toPrimitive(Float[] array) {
+        float[] ret = new float[array.length];
+        for (int i = 0; i < array.length; i++) {
+            ret[i] = array[i].floatValue();
+        }
+        return ret;
+    }
+
+    public static double[] toPrimitive(Double[] array) {
+        double[] ret = new double[array.length];
+        for (int i = 0; i < array.length; i++) {
+            ret[i] = array[i].doubleValue();
+        }
+        return ret;
+    }
+
+    public static int[] toPrimitive(Integer[] array) {
+        int[] ret = new int[array.length];
+        for (int i = 0; i < array.length; i++) {
+            ret[i] = array[i].intValue();
+        }
+        return ret;
+    }
+
+    public static long[] toPrimitive(Long[] array) {
+        long[] ret = new long[array.length];
+        for (int i = 0; i < array.length; i++) {
+            ret[i] = array[i].longValue();
+        }
+        return ret;
+    }
+
+    public static byte[] toPrimitive(Byte[] array) {
+        byte[] ret = new byte[array.length];
+        for (int i = 0; i < array.length; i++) {
+            ret[i] = array[i].byteValue();
+        }
+        return ret;
+    }
+
+    public static char[] toPrimitive(Character[] array) {
+        char[] ret = new char[array.length];
+        for (int i = 0; i < array.length; i++) {
+            ret[i] = array[i].charValue();
+        }
+        return ret;
+    }
+
+    public static boolean[] toPrimitive(Boolean[] array) {
+        boolean[] ret = new boolean[array.length];
+        for (int i = 0; i < array.length; i++) {
+            ret[i] = array[i].booleanValue();
+        }
+        return ret;
+    }
+
+    public static short[] toPrimitive(Short[] array) {
+        short[] ret = new short[array.length];
+        for (int i = 0; i < array.length; i++) {
+            ret[i] = array[i].shortValue();
+        }
+        return ret;
+    }
 }
