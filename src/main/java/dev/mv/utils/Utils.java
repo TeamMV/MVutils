@@ -6,6 +6,7 @@ import dev.mv.utils.nullHandler.NullHandler;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -155,5 +156,9 @@ public class Utils {
             ret[i] = array[i].shortValue();
         }
         return ret;
+    }
+
+    public static <T> T[] array(Collection<T> collection) {
+        return (T[]) collection.toArray();
     }
 }
