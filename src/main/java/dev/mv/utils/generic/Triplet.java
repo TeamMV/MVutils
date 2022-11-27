@@ -4,12 +4,9 @@ import lombok.Getter;
 
 public class Triplet<T, U, R> {
 
-    @Getter
-    private final T a;
-    @Getter
-    private final U b;
-    @Getter
-    private final R c;
+    public final T a;
+    public final U b;
+    public final R c;
 
     public Triplet(T a, U b, R c) {
         this.a = a;
