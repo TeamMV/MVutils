@@ -60,4 +60,8 @@ public class Version {
     public String toString() {
         return String.format("%d.%d.%d", major, minor, patch);
     }
+
+    public int toVulkanVersion() {
+        return major << 22 | minor << 12 | patch;
+    }
 }
