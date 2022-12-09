@@ -3,10 +3,8 @@ package dev.mv.utils;
 import dev.mv.utils.async.Promise;
 import dev.mv.utils.async.PromiseNull;
 import dev.mv.utils.nullHandler.NullHandler;
-import sun.reflect.ReflectionFactory;
 
 import java.io.File;
-import java.lang.reflect.ReflectPermission;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -39,7 +37,7 @@ public class Utils {
     }
 
     public static float radToDeg(float rad) {
-        return (float) (rad *  57.29577951308232);
+        return (float) (rad * 57.29577951308232);
     }
 
     public static double degToRad(double deg) {

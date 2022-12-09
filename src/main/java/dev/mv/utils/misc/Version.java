@@ -5,7 +5,8 @@ import lombok.Setter;
 
 //version class
 public class Version {
-    @Getter @Setter
+    @Getter
+    @Setter
     private int major, minor, patch;
 
     public Version() {
@@ -33,15 +34,15 @@ public class Version {
         if (version.startsWith("#version")) {
             version = version.replaceAll("#version", "").replaceAll(" ", "");
             char[] versionChars = version.toCharArray();
-                if (versionChars.length == 2) {
-                    int major = versionChars[0] - 48;
-                    int minor = versionChars[1] - 48;
-                    return new Version(major, minor, 0);
-                }
-                if (versionChars.length == 1) {
-                    int major = versionChars[0] - 48;
-                    return new Version(major, 0, 0);
-                }
+            if (versionChars.length == 2) {
+                int major = versionChars[0] - 48;
+                int minor = versionChars[1] - 48;
+                return new Version(major, minor, 0);
+            }
+            if (versionChars.length == 1) {
+                int major = versionChars[0] - 48;
+                return new Version(major, 0, 0);
+            }
             if (versionChars.length == 3) {
                 int major = versionChars[0] - 48;
                 int minor = versionChars[1] - 48;

@@ -13,6 +13,19 @@ public class ParsedArgs {
         parsedArgs = this;
     }
 
+    @SneakyThrows
+    protected void setVariable(String name, Object value, Object defaultValue) {
+        try {
+            parsedArgs.getClass().getDeclaredField(name).set(parsedArgs, value);
+        } catch (IllegalArgumentException e) {
+            try {
+                parsedArgs.getClass().getDeclaredField(name).set(parsedArgs, defaultValue);
+            } catch (IllegalArgumentException ex) {
+                parsedArgs.getClass().getDeclaredField(name).set(parsedArgs, 0);
+            }
+        }
+    }
+
     protected class ArgParser {
 
         private String[] args;
@@ -90,19 +103,6 @@ public class ParsedArgs {
                 if (called) return;
                 if (defaultValue == null) return;
                 parsedArgs.setVariable(dest, defaultValue, null);
-            }
-        }
-    }
-
-    @SneakyThrows
-    protected void setVariable(String name, Object value, Object defaultValue) {
-        try {
-            parsedArgs.getClass().getDeclaredField(name).set(parsedArgs, value);
-        } catch (IllegalArgumentException e) {
-            try {
-                parsedArgs.getClass().getDeclaredField(name).set(parsedArgs, defaultValue);
-            } catch (IllegalArgumentException ex) {
-                parsedArgs.getClass().getDeclaredField(name).set(parsedArgs, 0);
             }
         }
     }
