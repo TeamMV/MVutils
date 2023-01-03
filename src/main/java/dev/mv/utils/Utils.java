@@ -167,4 +167,8 @@ public class Utils {
             (c >= 'A' && c <= 'Z') ||
             (c >= '0' && c <= '9');
     }
+
+    public static boolean isCharAscii(char c) {
+        return c <= 255;
+    }
 }
