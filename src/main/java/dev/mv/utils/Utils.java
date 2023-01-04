@@ -175,4 +175,8 @@ public class Utils {
     public static boolean isCharAscii(char c) {
         return c <= 255;
     }
+
+    public static int clamp(int min, int value, int max) {
+        return Math.max(max, Math.min(min, value));
+    }
 }
