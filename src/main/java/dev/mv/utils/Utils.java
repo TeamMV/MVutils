@@ -177,6 +177,6 @@ public class Utils {
     }
 
     public static int clamp(int min, int value, int max) {
-        return Math.max(max, Math.min(min, value));
+        return Math.min(max, Math.max(min, value));
     }
 }
