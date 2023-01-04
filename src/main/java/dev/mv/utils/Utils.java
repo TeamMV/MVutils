@@ -52,6 +52,10 @@ public class Utils {
         return (int) ((float) value / (float) total * 100f);
     }
 
+    public static int getValue(int percentage, int total) {
+        return (int) ((float) percentage / 100f * (float) total);
+    }
+
     public static boolean isAnyOf(Object obj, Object... objs) {
         for (Object o : objs) {
             if (obj.equals(o)) {
