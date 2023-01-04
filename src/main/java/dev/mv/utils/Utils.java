@@ -48,7 +48,7 @@ public class Utils {
         return (float) (deg * 0.017453292519943295);
     }
 
-    public static float getPercent(int value, int total) {
+    public static float getPercent(float value, int total) {
         return ((float) value / (float) total * 100f);
     }
 
