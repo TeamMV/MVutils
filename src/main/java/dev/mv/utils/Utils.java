@@ -48,12 +48,12 @@ public class Utils {
         return (float) (deg * 0.017453292519943295);
     }
 
-    public static int getPercent(int value, int total) {
-        return (int) ((float) value / (float) total * 100f);
+    public static float getPercent(int value, int total) {
+        return ((float) value / (float) total * 100f);
     }
 
-    public static int getValue(int percentage, int total) {
-        return (int) ((float) percentage / 100f * (float) total);
+    public static int getValue(float percentage, int total) {
+        return (int) (percentage / 100f * (float) total);
     }
 
     public static boolean isAnyOf(Object obj, Object... objs) {
