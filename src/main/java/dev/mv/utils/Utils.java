@@ -13,23 +13,23 @@ import java.util.concurrent.atomic.AtomicReference;
 public class Utils {
 
     public static String getPath(String... dirs) {
-        String res = "";
+        StringBuilder res = new StringBuilder();
         for (int i = 0; i < dirs.length - 1; i++) {
-            res += dirs[i];
-            res += File.separator;
+            res.append(dirs[i]);
+            res.append(File.separator);
         }
-        res += dirs[dirs.length - 1];
-        return res;
+        res.append(dirs[dirs.length - 1]);
+        return res.toString();
     }
 
     public static String getInnerPath(String... dirs) {
-        String res = File.separator;
+        StringBuilder res = new StringBuilder(File.separator);
         for (int i = 0; i < dirs.length - 1; i++) {
-            res += dirs[i];
-            res += File.separator;
+            res.append(dirs[i]);
+            res.append(File.separator);
         }
-        res += dirs[dirs.length - 1];
-        return res;
+        res.append(dirs[dirs.length - 1]);
+        return res.toString();
     }
 
     public static double radToDeg(double rad) {
