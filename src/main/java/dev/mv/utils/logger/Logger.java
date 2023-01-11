@@ -46,7 +46,7 @@ public class Logger {
     }
 
     private static String buildLog(String msg, LogLevel logLevel) {
-        return "[" + new SimpleDateFormat("yyyy-MM-dd ' ' HH:mm:ss:SSS").format(new Date()) + "] <" + logLevel + "> " + msg;
+        return "[" + new SimpleDateFormat("yyyy-MM-dd '|' HH:mm:ss:SSS").format(new Date()) + "] <" + logLevel + "> " + msg;
     }
 
     private static void output(String log, LogLevel logLevel) {
