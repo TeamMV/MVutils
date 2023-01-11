@@ -188,4 +188,12 @@ public class Utils {
         }
         return ret;
     }
+
+    public static <T> T[] repeat(T t, int times) {
+        T[] ret = (T[]) new Object[times];
+        for (int i = 0; i < times; i++) {
+            ret[i] = t;
+        }
+        return ret;
+    }
 }
