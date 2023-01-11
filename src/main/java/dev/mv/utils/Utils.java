@@ -179,4 +179,13 @@ public class Utils {
     public static int clamp(int min, int value, int max) {
         return Math.min(max, Math.max(min, value));
     }
+
+    public static int[] range(int start, int end) {
+        if(end <= start) throw new IllegalArgumentException("\"end\" can't be smaller than \"start\"!");
+        int[] ret = new int[end - start];
+        for (int i = start; i < end; i++) {
+            ret[i - start] = i;
+        }
+        return ret;
+    }
 }
