@@ -6,9 +6,11 @@ import dev.mv.utils.nullHandler.NullHandler;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.stream.Stream;
 
 public class Utils {
 
@@ -190,9 +192,17 @@ public class Utils {
     }
 
     public static <T> T[] repeat(T t, int times) {
-        T[] ret = (T[]) new Object[times];
+        List<T> list = new ArrayList<>();
         for (int i = 0; i < times; i++) {
-            ret[i] = t;
+            list.add(t);
+        }
+        return array(list);
+    }
+
+    public static int[] repeat(int n, int times) {
+        int[] ret = new int[times];
+        for (int i = 0; i < times; i++) {
+            ret[i] = n;
         }
         return ret;
     }
